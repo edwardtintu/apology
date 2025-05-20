@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Do You Still Remember Us?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+  body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffcce6 0%, #e6ccff 100%);
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  }
+
+  .star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  animation: twinkle var(--duration) infinite ease-in-out;
+  opacity: 0;
+  }
+
+  @keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 0.8; transform: scale(1); }
+  }
+
+  .heart {
+  position: absolute;
+  color: #ff6b6b;
+  animation: float var(--duration) infinite ease-in-out;
+  opacity: 0.7;
+  }
+
+  @keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  .memory-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 400px;
+  max-width: 90%;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+  backdrop-filter: blur(5px);
+  position: relative;
+  z-index: 10;
+  transition: all 0.5s ease;
+  }
+
+  @keyframes fadeInUp {
+  to {
+  transform: translateY(0);
+  opacity: 1;
+  }
+  }
+
+  h1 {
+  font-family: 'Dancing Script', cursive;
+  color: #d23669;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  }
+
+  .question {
+  margin-bottom: 25px;
+  font-size: 1.2rem;
+  color: #5a2d5a;
+  font-weight: 600;
+  min-height: 60px;
+  }
+
+  .input-group {
+  margin-bottom: 25px;
+  }
+
+  input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e6b3cc;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  }
+
+  input:focus {
+  outline: none;
+  border-color: #d23669;
+  box-shadow: 0 0 10px rgba(210, 54, 105, 0.2);
+  }
+
+  .next-btn {
+  background: linear-gradient(to right, #d23669, #a83280);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 15px rgba(210, 54, 105, 0.3);
+  }
+
+  .next-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(210, 54, 105, 0.4);
+  }
+
+  .next-btn:active {
+  transform: translateY(1px);
+  }
+
+  .completion-message {
+  display: none;
+  }
+
+  .completion-message h2 {
+  font-family: 'Dancing Script', cursive;
+  color: #d23669;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  }
+
+  .heart-icon {
+  font-size: 60px;
+  color: #ff6b6b;
+  display: inline-block;
+  animation: heartbeat 1.5s infinite;
+  margin-top: 20px;
+  }
+
+  @keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+  }
+
+  .progress-dots {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  }
+
+  .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #e6b3cc;
+  margin: 0 5px;
+  transition: all 0.3s;
+  }
+
+  .dot.active {
+  background-color: #d23669;
+  transform: scale(1.2);
+  }
+
+  /* Audio control hidden but accessible */
+  audio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  }
+  </style>
+ </head>
+ <body>
+  <!-- Background elements -->
+  <div id="stars"></div>
+  <div id="hearts"></div>
+
+  <!-- Memory Quiz Container -->
+  <div class="memory-container">
+  <div class="progress-dots" id="progressDots">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  </div>
+
+  <h1>Do You Still Remember Us?</h1>
+
+  <div class="question" id="question">Your proposal date?</div>
+
+  <div class="input-group">
+  <input type="date" id="answer" placeholder="Type your answer here...">
+  </div>
+
+  <button class="next-btn" id="nextBtn">Next Memory</button>
+
+  <div class="completion-message" id="completionMessage">
+  <h2>Thank you for remembering...</h2>
+  <p>You've always had my heart ❤️</p>
+  <div class="heart-icon">❤️</div>
+  </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+  // Create background elements
+  createStars(30);
+  createHearts(10);
+
+  // Questions array
+  const questions = [
+  "Your proposal date?",
+  "Our first meet after school",
+  "Our first touch date",
+  "Our first movie date",
+  "Do you remember what is the name edva means?"
+  ];
+
+  // Initialize variables
+  let currentQuestion = 0;
+  const questionElement = document.getElementById('question');
+  const answerInput = document.getElementById('answer');
+  const nextBtn = document.getElementById('nextBtn');
+  const progressDots = document.querySelectorAll('.progress-dots .dot');
+  const completionMessage = document.getElementById('completionMessage');
+  const memoryContainer = document.querySelector('.memory-container');
+
+  // Next button click handler
+  nextBtn.addEventListener('click', function() {
+  if (answerInput.value.trim() === '') {
+  alert("Please share your memory before continuing ❤️");
+  return;
+  }
+
+  // Store the answer (in a real app, you'd save this somewhere)
+  console.log(`Question ${currentQuestion + 1}: ${answerInput.value}`);
+
+  // Move to next question or show completion
+  currentQuestion++;
+
+  if (currentQuestion < questions.length) {
+  // Update progress dots
+  progressDots.forEach((dot, index) => {
+  dot.classList.toggle('active', index === currentQuestion);
+  });
+
+  // Animate out current question
+  memoryContainer.style.opacity = '0';
+  memoryContainer.style.transform = 'translateY(-20px)';
+
+  // After animation completes, show next question
+  setTimeout(() => {
+  questionElement.textContent = questions[currentQuestion];
+  if (currentQuestion === 0 || currentQuestion === 2) {
+  answerInput.type = "date";
+  } else {
+  answerInput.type = "text";
+  }
+  answerInput.value = '';
+
+  // Animate in next question
+  memoryContainer.style.opacity = '1';
+  memoryContainer.style.transform = 'translateY(0)';
+  }, 500);
+  } else {
+  // Show completion message
+  document.querySelector('.question').style.display = 'none';
+  document.querySelector('.input-group').style.display = 'none';
+  nextBtn.style.display = 'none';
+  document.getElementById('progressDots').style.display = 'none';
+  completionMessage.style.display = 'block';
+
+  // Animate completion message
+  completionMessage.style.opacity = '0';
+  completionMessage.style.transform = 'translateY(20px)';
+  setTimeout(() => {
+  completionMessage.style.opacity = '1';
+  completionMessage.style.transform = 'translateY(0)';
+  }, 10);
+
+  // Redirect to final.html
+  window.location.href = 'final.html';
+  }
+  });
+
+  // Create stars for background
+  function createStars(count) {
+  const container = document.getElementById('stars');
+  for (let i = 0; i < count; i++) {
+  const star = document.createElement('div');
+  star.classList.add('star');
+
+  // Random properties
+  const size = Math.random() * 3 + 1;
+  const posX = Math.random() * 100;
+  const posY = Math.random() * 100;
+  const duration = Math.random() * 5 + 3;
+  const delay = Math.random() * 5;
+
+  star.style.width = `${size}px`;
+  star.style.height = `${size}px`;
+  star.style.left = `${posX}%`;
+  star.style.top = `${posY}%`;
+  star.style.setProperty('--duration', `${duration}s`);
+  star.style.animationDelay = `${delay}s`;
+
+  container.appendChild(star);
+  }
+  }
+
+  // Create floating hearts for background
+  function createHearts(count) {
+  const container = document.getElementById('hearts');
+  for (let i = 0; i < count; i++) {
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.innerHTML = '❤';
+
+  // Random properties
+  const size = Math.random() * 30 + 20;
+  const posX = Math.random() * 100;
+  const posY = Math.random() * 100;
+  const duration = Math.random() * 10 + 5;
+  const delay = Math.random() * 5;
+
+  heart.style.left = `${posX}%`;
+  heart.style.top = `${posY}%`;
+  heart.style.fontSize = `${size}px`;
+  heart.style.setProperty('--duration', `${duration}s`);
+  heart.style.animationDelay = `${delay}s`;
+
+  container.appendChild(heart);
+  }
+  }
+  });
+
+         // Resume audio if currentTime is stored
+         const audioCurrentTime = localStorage.getItem('audioCurrentTime');
+         if (audioCurrentTime) {
+             const audio1 = new Audio('1.mp3');
+             audio1.currentTime = audioCurrentTime;
+             audio1.play();
+             localStorage.removeItem('audioCurrentTime'); // Clear the stored time
+         }
+     </script>
+ </body>
+ </html>

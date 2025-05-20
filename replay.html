@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replay Our Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Lobster&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #ffcce6, #ffb3e6, #ffa6d2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: background 5s ease;
+            color: #333; /* Darker text color */
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .sun {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #ff7e5f, #feb47b);
+            border-radius: 50%;
+            box-shadow: 0 0 50px #ff7e5f;
+            bottom: -100px;
+            right: 20%;
+            animation: sunset 10s forwards;
+            z-index: 1;
+        }
+
+        @keyframes sunset {
+            to {
+                transform: translateY(100vh);
+                opacity: 0.5;
+                box-shadow: 0 0 100px #ff7e5f;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 600px;
+            max-width: 90%;
+            z-index: 10;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out forwards;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-family: 'Sacramento', cursive;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 3.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .message {
+            font-family: 'Lobster', cursive;
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            line-height: 1.4;
+            min-height: 120px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+        }
+
+        .heart-container {
+            margin: 30px auto;
+            position: relative;
+            height: 100px;
+        }
+
+        .heart {
+            font-size: 80px;
+            color: #ff6b6b;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: heartbeat 1.5s infinite;
+        }
+
+        .broken-heart {
+            font-size: 80px;
+            color: #ff6b6b;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes heartbeat {
+            0% { transform: translateX(-50%) scale(1); }
+            25% { transform: translateX(-50%) scale(1.1); }
+            50% { transform: translateX(-50%) scale(1); }
+            75% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        .memory-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #ffb8b8, #ff6b6b);
+            opacity: 0;
+        }
+
+        .final-message {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .final-message h2 {
+            font-family: 'Sacramento', cursive;
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .final-message p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .footer-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            z-index: 20;
+        }
+
+        .footer-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div id="stars"></div>
+    <div class="sun"></div>
+
+    <div style="display: flex; height: 100vh; overflow: auto;">
+        <div style="width: 40%; padding: 20px; text-align: left; overflow-y: auto;">
+            <p style="font-size: 1.2rem; line-height: 1.6;">I want to start by saying how deeply sorry I am for everything that happened in the past. I've spent so much time reflecting on my actions and the pain they may have caused, and I carry a heavy weight of regret in my heart. I never intended to hurt you, but I realize now that intention alone is not enough. What truly matters is how someone feels, and for that, I am genuinely sorry. Every day, I wish I could go back and make things right, but I know I can’t change the past. What I can do is take responsibility, grow from my mistakes, and promise that I am working to become a better version of myself. If you find it in your heart to give me a second chance, I won’t take it for granted. I want nothing more than to bring happiness back into your life and prove that I am capable of loving, respecting, and appreciating you the way you truly deserve.</p>
+        </div>
+    
+    <!-- Main container -->
+    <div class="container" style="width: 60%;">
+        <h1>A Promise for the Future</h1>
+        
+        <div class="message" id="mainMessage">I'll always remember you...</div>
+
+        <div id="detailsDisplay" style="color: #333; font-size: 1.2rem; margin-top: 20px; text-align: center; font-family: 'Lobster', cursive; text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);"></div>
+        
+        <div class="heart-container" id="heartContainer">
+            <div class="heart">❤</div>
+        </div>
+        
+        <button class="btn btn-pulse" id="actionBtn" style="display: none;">Start Over</button>
+        
+        <div class="final-message" id="finalMessage">
+            <h2>My Dearest Love</h2>
+            <p>Though our paths may diverge, know that a part of me will always walk with you. The memories we created will forever be the stars that light my darkest nights. Thank you for being my greatest love story.</p>
+        </div>
+
+        <div id="quoteDisplay" style="color: #333; font-size: 1.2rem; margin-top: 20px; text-align: center; font-family: 'Lobster', cursive; text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);"></div>
+		<button class="btn" onclick="window.location.href='login.html'">Close</button>
+    </div>
+    </div>
+    
+    <button class="footer-btn" id="loveBtn">I'll Always Love You 💖</button>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get details from local storage
+            const name = localStorage.getItem('name');
+            const code = localStorage.getItem('code');
+
+            // Display details
+            const detailsDisplay = document.getElementById('detailsDisplay');
+            detailsDisplay.textContent = `Name: ${name}, Code: ${code}`;
+
+            // Play audio
+            const audio2 = new Audio('2.mp3');
+            audio2.volume = 0.3;
+            audio2.autoplay = true;
+            audio2.loop = true;
+            audio2.play().catch(e => console.error("Playback prevented"));
+
+            // Create stars
+            function createStars(count) {
+                const container = document.getElementById('stars');
+                for (let i = 0; i < count; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+
+                    const size = Math.random() * 3 + 1;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const duration = Math.random() * 5 + 3;
+                    const delay = Math.random() * 5;
+
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    star.style.left = `${posX}%`;
+                    star.style.top = `${posY}%`;
+                    star.style.setProperty('--duration', `${duration}s`);
+                    star.style.animationDelay = `${delay}s`;
+
+                    container.appendChild(star);
+                }
+            }
+
+            // Function to fade to new message
+            function fadeToNewMessage(newMessage) {
+                const container = document.querySelector('.container');
+                container.style.opacity = '0';
+                container.style.transform = `translateY(-20px)`;
+                container.style.transition = 'all 0.8s ease';
+
+                setTimeout(() => {
+                    mainMessage.textContent = newMessage;
+                    heartContainer.style.display = 'none';
+                    actionBtn.style.display = 'none';
+                    container.style.opacity = '1';
+                    container.style.transform = 'translateY(0)';
+                }, 800);
+            }
+        });
+    </script>
+</body>
+</html>
