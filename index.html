@@ -284,7 +284,7 @@
   const name = document.getElementById('name').value;
   const code = document.getElementById('code').value;
 
-  if (name && code) {
+  if (code === 'forever') {
   // Store name and code in localStorage
   localStorage.setItem('name', name);
   localStorage.setItem('code', code);
@@ -299,12 +299,12 @@
   // Store current time in localStorage
   localStorage.setItem('audioCurrentTime', audio1.currentTime);
 
-  // Redirect to message.html
-  window.location.href = 'message.html';
+  // Redirect to final.html
+  window.location.href = 'final.html';
   } else {
   // Apply sorry effects
   document.body.classList.add('sorry-mode');
-  alert('Please enter both your name and the secret code to my heart 😔');
+  alert('Incorrect secret code. Please ask Edward about the key.');
 
   // Remove sorry effects after 3 seconds
   setTimeout(() => {
